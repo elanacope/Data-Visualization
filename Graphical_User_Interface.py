@@ -1,4 +1,4 @@
-
+"""This code makes the graphical user interface, which generates sample files, reads them in, and visualizes the data."""
 
 import netCDF4 as nc4
 import math # 'math' is needed for 'sqrt' function
@@ -32,10 +32,10 @@ from windrose import WindroseAxes
 from pyproj import Transformer
 
 
-
+"""
 ################################
 #Part 1: This starts the graphical user interface, and creates the entry bars.
-################################
+################################"""
 root=Tk()
 #Title of window
 root.title('Data Aquisition')
@@ -54,14 +54,15 @@ time_entry.pack()
 record_entry_label.pack()
 record_entry.pack()
 
-
+"""
 ##############################
 #Part 2: Create data using the netCDF file generator (w_nc4.py). 
-############################
+############################"""
 
 
 #this simulates the radar. It creates netcdf4 files. 
 def click_makefiles():
+    """This makes sample files"""
     #creates variables of entered time and number of records respectively
     trget = time_entry.get()
     nrget = record_entry.get()
@@ -159,10 +160,10 @@ gobutton = Button(root, text="Make netCDF4 files", command=click_makefiles)
 gobutton.pack()
         
 
-
+"""
 ##############################
 #Part 3: Append the data files to master file.
-#############################
+#############################"""
 
 
 r = []
@@ -176,7 +177,7 @@ rx_param = []
 
 
 def append_files():
-    
+    """This reads the sample files and appends the variables that they contain into master variables stored in the program."""
         
     trget = time_entry.get()
     nrget = record_entry.get()
@@ -251,10 +252,10 @@ figdir = '/Users/elanacope/Documents/penn_state_reu/Figures/Graphs/' #where the 
 rcParams.update({'figure.autolayout': True}) #keeps the axis labels from getting cut off
 
 
-
+"""
 #################################
 #Part 5: commands for each menu option.
-#################################
+#################################"""
 
 #These are the functions that will be called in for each menu item that is clicked.
 #The functions need to be called before the rest of the commands of the program. 
@@ -266,7 +267,8 @@ def donothing(): # This is a temporary place holder until the rest of the option
 
 
 #These are the functions for the Graph/New Graph section of the program. 
-def make_hist(): #makes a histogram of step widths
+def make_hist(): 
+    """makes a histogram of step widths"""
 
     
     #This converts from polar coordinates to cartesian coordinates.
@@ -300,7 +302,8 @@ def make_hist(): #makes a histogram of step widths
     plt.show() 
 
 
-def make_polar(): #makes polar plot 
+def make_polar(): 
+    """makes polar plot """
     #creating polar plot
     ax=plt.subplot(111, polar=True)
     ax.plot(phi, r,'o-', label='Path 4 from (d)', ms=5, color='blue', markerfacecolor='gray') 
@@ -309,7 +312,8 @@ def make_polar(): #makes polar plot
     plt.savefig(figdir+'Polar.png', dpi=900) #This saves the first page of figures
     plt.show()
 
-def make_xy(): #makes xy plot
+def make_xy(): 
+    """makes Cartesian plot"""
     
 
     # ^ seems like this is height above sea level? (says unit is meters) not radar elevation angle?
@@ -390,7 +394,7 @@ def make_xy(): #makes xy plot
     plt.show()
 
 
-def make_polarhist(): #makes polar histogram of azimuthal angles
+def make_polarhist(): """makes polar histogram of azimuthal angles"""
         
     bins_number = 16  # the [0, 2pi) interval will be subdivided into this
     bins = np.linspace(-np.pi, np.pi, bins_number + 1)
@@ -409,7 +413,7 @@ def make_polarhist(): #makes polar histogram of azimuthal angles
     plt.savefig(figdir+'PolarHistogram.png', dpi=900) #This saves the first page of figures
     plt.show()
 
-def make_tseries():
+def make_tseries(): """makes time series of step widths"""
     #This converts from polar coordinates to cartesian coordinates.
     n = len(r)
     x=np.empty(n, )
@@ -451,7 +455,7 @@ def make_tseries():
     plt.show()
 
 
-def make_georef():
+def make_georef(): """makes georeferencing plot"""
     # -*- coding: utf-8 -*-
     """
     Created on Wed Jun 17 15:42:52 2020
@@ -567,7 +571,7 @@ def make_georef():
     show(p)
 
     
-def make_distseries():
+def make_distseries(): """makes time series of total distance"""
     #This converts from polar coordinates to cartesian coordinates.
     n = len(r)
     x=np.empty(n, )
@@ -612,6 +616,7 @@ def make_distseries():
 
 
 def make_SAhist(): 
+    """makes a polar histogram of step angles"""
     #This converts from polar coordinates to cartesian coordinates.
     n = len(r)
     x=np.empty(n, )
@@ -667,7 +672,7 @@ def make_SAhist():
     plt.show()
     
 def make_SA_SD_hist():
-        
+        """Makes a polar histogram of step angles with corresponding step distances"""
     #This converts from polar coordinates to cartesian coordinates.
     n = len(r)
     x=np.empty(n, )
@@ -720,6 +725,7 @@ def make_SA_SD_hist():
     plt.show()
     
 def make_animated_graph():
+    """makes an animated georeferencing graph"""
         #This converts from polar coordinates to cartesian coordinates.
     n = len(r)
     x=np.empty(n, )
@@ -785,12 +791,12 @@ def make_animated_graph():
     plt.show()
         
 
-    s
-
+   
+"""
 ##################################################
 #Part 7: Creating the menu bar options. 
 ##############################################
-
+"""
 #create File menu
 file_menu = Menu(my_menu)
 my_menu.add_cascade(label="File", menu=file_menu)
@@ -862,4 +868,4 @@ calculate_menu.add_cascade(label="Turkey HSD Test", command=donothing)
 calculate_menu.add_cascade(label="Kruskal-Wallis Test", command=donothing)
 
 
-root.mainloop() #this is needed. Not exactly sure why. Don't delete it. 
+root.mainloop() #this is needed. 
